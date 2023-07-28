@@ -21,7 +21,6 @@ const UserList=({User,setUser,fetchUser,showModal,setShowModal,setType})=> {
     // const candidate =e.target.id;
     
     setType('Update');
-// console.log(candidate)
     setUser(candidate);
     setShowModal(true);
     
@@ -29,10 +28,8 @@ const UserList=({User,setUser,fetchUser,showModal,setShowModal,setType})=> {
   
   const deleteUser=async(e)=>{
     const userId=e.target.id;
-    console.log(userId,'userId');
     try {
       const response = await axios.delete(`${config.baseUrl}/api/deletes/${userId}`);
-      console.log("response", response);
       alert(response?.data?.message)
       fetchUser();
     } catch (error) {
