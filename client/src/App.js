@@ -28,18 +28,15 @@ function App() {
   const fetchUser=async()=>{
     try {
       const response=await axios.get(`${config.baseUrl}/api/getUsers`);
-      console.log(response,"response");
       if(response.status=='201')
       setUserList(response.data.response);
     } catch (error) {
-     console.log(error,"error"); 
     }
   }
   
 
 
 
-console.log(User,"user");
   return (
     <div className="m-auto">
       <div className="mx-10 border flex justify-center">
