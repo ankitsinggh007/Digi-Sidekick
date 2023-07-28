@@ -44,3 +44,42 @@ export const fetchUser=async(req,res)=>{
     
 
 }
+export const deleteUser =async(req,res)=>{
+  try {
+    const {userid}=req.params;
+    const response = await User.findByIdAndDelete(userid);
+    return res.status(202).json({
+      success: true,
+      response,
+      message: "Deleted user Successfully",
+      error: {},
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      response: [],
+      message: error.message,
+      error: error,
+    });
+  }
+}
+export const updateUser =async(req,res)=>{
+  try {
+    const {userid}=req.params;
+    const {name,email}=req.body;
+    const response = await User.findByIdAndUpdate(userid,{name,email});
+    return res.status(202).json({
+      success: true,
+      response,
+      message: "updated user Successfully",
+      error: {},
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      response: [],
+      message: error.message,
+      error: error,
+    });
+  }
+}

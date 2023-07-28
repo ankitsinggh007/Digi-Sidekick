@@ -6,14 +6,43 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import axios from 'axios';
+import config from '../config';
 
 
 
-const rows = [
-        {name:"ankit",email:"ankit@gmail.com"}
-];
 
-export default function UserList() {
+
+const UserList=({User,setUser,fetchUser,showModal,setShowModal,setType})=> {
+
+
+
+  const updateUser=(candidate)=>{
+    // const candidate =e.target.id;
+    
+    setType('Update');
+// console.log(candidate)
+    setUser(candidate);
+    setShowModal(true);
+    
+  }
+  
+  const deleteUser=async(e)=>{
+    const userId=e.target.id;
+    console.log(userId,'userId');
+    try {
+      const response = await axios.delete(`${config.baseUrl}/api/deletes/${userId}`);
+      console.log("response", response);
+      alert(response?.data?.message)
+      fetchUser();
+    } catch (error) {
+      alert(error?.response?.data?.message);
+    }
+
+  }
+
+
+
   return (
     <TableContainer component={Paper}>
       <Table className='w-auto'  >
@@ -25,15 +54,32 @@ export default function UserList() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {User?.map((candidate) => (
             <TableRow
-              key={row.name}
+              key={candidate._id}
             >
               <TableCell>
-                {row.name}
+                {candidate.name}
               </TableCell>
-              <TableCell >{row.email}</TableCell>
-              <TableCell >{row.carbs}</TableCell>
+              <TableCell >{candidate.email}</TableCell>
+              <TableCell >
+                
+                <button 
+                className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded shadow"
+                id={candidate}
+                onClick={()=>updateUser(candidate)}
+                
+                
+                >Update</button>
+                
+                <button
+                className="px-4 ml-2 py-2 bg-red-500 hover:bg-red-600 text-white font-semibold rounded shadow"
+
+                id={candidate._id}
+                onClick={deleteUser}
+                >Delete</button>
+                
+                </TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -41,3 +87,4 @@ export default function UserList() {
     </TableContainer>
   );
 }
+export default UserList;
